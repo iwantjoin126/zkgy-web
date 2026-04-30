@@ -51,7 +51,7 @@ function cleanString(value: unknown) {
 function normalizePoolerUser(databaseUrl: URL) {
   const username = decodeURIComponent(databaseUrl.username);
 
-  if (databaseUrl.hostname.endsWith(".pooler.supabase.com") && username === "postgres") {
+  if (databaseUrl.hostname.endsWith(".pooler.supabase.com")) {
     return `postgres.${supabaseProjectRef}`;
   }
 
