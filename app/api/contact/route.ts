@@ -181,7 +181,7 @@ export async function POST(request: Request) {
 
           return NextResponse.json({
             ok: true,
-            message: "OK",
+            message: "\u54a8\u8be2\u4fe1\u606f\u5df2\u6536\u5230\u3002",
           });
         } catch (fallbackError) {
           console.error("Failed to save customer message with fallback pooler", fallbackError);
