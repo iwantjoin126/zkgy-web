@@ -16,6 +16,8 @@ const globalForPg = globalThis as typeof globalThis & {
   customerMessagesPool?: Pool;
 };
 
+const supabaseProjectRef = "fhwmxdcjnqfhtfnkundu";
+
 function getPool() {
   const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL;
 
@@ -29,7 +31,7 @@ function getPool() {
     host: databaseUrl.hostname,
     port: databaseUrl.port ? Number(databaseUrl.port) : 5432,
     database: databaseUrl.pathname.replace(/^\//, ""),
-    user: decodeURIComponent(databaseUrl.username),
+    user: normalizePoolerUser(databaseUrl),
     password: decodeURIComponent(databaseUrl.password),
     ssl: {
       rejectUnauthorized: false,
@@ -44,6 +46,16 @@ function getPool() {
 
 function cleanString(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
+}
+
+function normalizePoolerUser(databaseUrl: URL) {
+  const username = decodeURIComponent(databaseUrl.username);
+
+  if (databaseUrl.hostname.endsWith(".pooler.supabase.com") && username === "postgres") {
+    return `postgres.${supabaseProjectRef}`;
+  }
+
+  return username;
 }
 
 export async function POST(request: Request) {
