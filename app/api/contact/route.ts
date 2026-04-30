@@ -14,6 +14,7 @@ const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const globalForPg = globalThis as typeof globalThis & {
   customerMessagesPool?: Pool;
+  customerMessagesFallbackPool?: Pool;
 };
 
 const supabaseProjectRef = "fhwmxdcjnqfhtfnkundu";
@@ -26,9 +27,35 @@ function getPool() {
   }
 
   const databaseUrl = new URL(connectionString);
+  const poolConfig = createPoolConfig(databaseUrl);
 
-  globalForPg.customerMessagesPool ??= new Pool({
-    host: databaseUrl.hostname,
+  globalForPg.customerMessagesPool ??= new Pool(poolConfig);
+
+  return globalForPg.customerMessagesPool;
+}
+
+function getFallbackPool() {
+  const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+
+  if (!connectionString) {
+    throw new Error("Missing POSTGRES_URL or DATABASE_URL");
+  }
+
+  const databaseUrl = new URL(connectionString);
+  const fallbackHost = getPoolerFallbackHost(databaseUrl.hostname);
+
+  if (!fallbackHost) {
+    return null;
+  }
+
+  globalForPg.customerMessagesFallbackPool ??= new Pool(createPoolConfig(databaseUrl, fallbackHost));
+
+  return globalForPg.customerMessagesFallbackPool;
+}
+
+function createPoolConfig(databaseUrl: URL, hostOverride?: string) {
+  return {
+    host: hostOverride || databaseUrl.hostname,
     port: databaseUrl.port ? Number(databaseUrl.port) : 5432,
     database: databaseUrl.pathname.replace(/^\//, ""),
     user: normalizePoolerUser(databaseUrl),
@@ -39,9 +66,7 @@ function getPool() {
     max: 1,
     idleTimeoutMillis: 10_000,
     connectionTimeoutMillis: 5_000,
-  });
-
-  return globalForPg.customerMessagesPool;
+  };
 }
 
 function getConnectionDebugInfo() {
@@ -84,6 +109,18 @@ function normalizePoolerUser(databaseUrl: URL) {
   return username;
 }
 
+function getPoolerFallbackHost(hostname: string) {
+  if (!hostname.endsWith(".pooler.supabase.com") || !hostname.startsWith("aws-0-")) {
+    return null;
+  }
+
+  return hostname.replace(/^aws-0-/, "aws-1-");
+}
+
+function shouldTryPoolerFallback(error: unknown) {
+  return error instanceof Error && error.message.includes("Tenant or user not found");
+}
+
 export async function POST(request: Request) {
   const body = (await request.json().catch(() => null)) as ContactPayload | null;
 
@@ -123,6 +160,35 @@ export async function POST(request: Request) {
       ],
     );
   } catch (error) {
+    if (shouldTryPoolerFallback(error)) {
+      const fallbackPool = getFallbackPool();
+
+      if (fallbackPool) {
+        try {
+          await fallbackPool.query(
+            `insert into public.customer_messages
+              (name, phone, email, message, source_path, user_agent)
+             values ($1, $2, nullif($3, ''), $4, $5, $6)`,
+            [
+              name,
+              phone,
+              email,
+              message,
+              request.headers.get("referer") || new URL(request.url).pathname,
+              request.headers.get("user-agent"),
+            ],
+          );
+
+          return NextResponse.json({
+            ok: true,
+            message: "OK",
+          });
+        } catch (fallbackError) {
+          console.error("Failed to save customer message with fallback pooler", fallbackError);
+        }
+      }
+    }
+
     console.error("Failed to save customer message", getConnectionDebugInfo(), error);
     return NextResponse.json({ error: "提交失败，请稍后再试。" }, { status: 500 });
   }
