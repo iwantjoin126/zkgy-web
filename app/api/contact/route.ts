@@ -23,11 +23,14 @@ function getPool() {
     throw new Error("Missing POSTGRES_URL or DATABASE_URL");
   }
 
-  const poolConnectionString = new URL(connectionString);
-  poolConnectionString.searchParams.delete("sslmode");
+  const databaseUrl = new URL(connectionString);
 
   globalForPg.customerMessagesPool ??= new Pool({
-    connectionString: poolConnectionString.toString(),
+    host: databaseUrl.hostname,
+    port: databaseUrl.port ? Number(databaseUrl.port) : 5432,
+    database: databaseUrl.pathname.replace(/^\//, ""),
+    user: decodeURIComponent(databaseUrl.username),
+    password: decodeURIComponent(databaseUrl.password),
     ssl: {
       rejectUnauthorized: false,
     },
