@@ -8,6 +8,8 @@
   --color-border-primary: #e3dfd6;
   --color-accent-primary: #76654a;
   --color-accent-secondary: #2f5f59;
+  --color-action-blue: #0563ff;
+  --color-action-blue-hover: #004fd1;
   --space-05: 0.5rem;
   --space-1: 1rem;
   --space-15: 1.5rem;
@@ -117,8 +119,8 @@ h2 {
   min-height: 42px;
   padding: 0.72em 1.35em;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--color-text-primary);
-  background: var(--color-text-primary);
+  border: 1px solid var(--color-action-blue);
+  background: var(--color-action-blue);
   color: #fff;
   font-weight: 600;
   cursor: pointer;
@@ -130,26 +132,33 @@ h2 {
 }
 
 .btn-primary {
-  background: var(--color-text-primary);
-  border-color: var(--color-text-primary);
+  background: var(--color-action-blue);
+  border-color: var(--color-action-blue);
   color: #fff;
 }
 
 .btn-secondary {
   background: transparent;
-  color: var(--color-text-primary);
+  color: var(--color-action-blue);
+  border-color: var(--color-action-blue);
 }
 
 .btn-on-inverse {
-  background: #fff;
-  border-color: #fff;
-  color: var(--color-text-primary);
+  background: var(--color-action-blue);
+  border-color: var(--color-action-blue);
+  color: #fff;
 }
 
 .btn-secondary-inverse,
 .btn-secondary-on-inverse {
   background: transparent;
-  border-color: rgba(255, 255, 255, 0.45);
+  border-color: #7fb0ff;
+  color: #d8e7ff;
+}
+
+.btn:hover {
+  background: var(--color-action-blue-hover);
+  border-color: var(--color-action-blue-hover);
   color: #fff;
 }
 
