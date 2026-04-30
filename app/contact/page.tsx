@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { inputStyle, PageShell } from "../components";
+import { PageShell } from "../components";
+import { ContactForm } from "./contact-form";
 
 export const metadata: Metadata = {
   title: "联系我们 - 中康国悦",
@@ -35,44 +36,9 @@ export default function Contact() {
             <h2 style={{ marginBottom: "var(--space-2)" }}>高效对接，合作共赢</h2>
             <p className="paragraph-large" style={{ lineHeight: 1.8 }}>欢迎咨询园区招商与运营服务。<br />请填写表单，我们将尽快与您联系，提供专业定制化解决方案。</p>
           </div>
-          <form style={{ display: "flex", flexDirection: "column", gap: "var(--space-1)" }}>
-            <div className="contact-fields-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-1)" }}>
-              <div>
-                <label htmlFor="contact-name" style={labelStyle}>姓名</label>
-                <input id="contact-name" type="text" placeholder="您的大名" required style={compactInputStyle} />
-              </div>
-              <div>
-                <label htmlFor="contact-phone" style={labelStyle}>电话</label>
-                <input id="contact-phone" type="tel" placeholder="联系电话" required style={compactInputStyle} />
-              </div>
-              <div style={{ gridColumn: "1 / -1" }}>
-                <label htmlFor="contact-email" style={labelStyle}>邮箱</label>
-                <input id="contact-email" type="email" placeholder="Email" style={compactInputStyle} />
-              </div>
-              <div style={{ gridColumn: "1 / -1" }}>
-                <label htmlFor="contact-message" style={labelStyle}>留言</label>
-                <textarea id="contact-message" placeholder="有什么能帮到您" rows={4} maxLength={5000} required style={{ ...compactInputStyle, minHeight: 128, resize: "vertical" }} />
-              </div>
-            </div>
-            <button type="submit" className="btn btn-primary" style={{ alignSelf: "flex-start", minWidth: 132 }}>现在提交</button>
-          </form>
+          <ContactForm />
         </div>
       </section>
     </PageShell>
   );
 }
-
-const labelStyle: React.CSSProperties = {
-  display: "block",
-  fontSize: "var(--text-sm)",
-  fontWeight: 600,
-  color: "var(--color-text-secondary)",
-  marginBottom: "0.35rem",
-};
-
-const compactInputStyle: React.CSSProperties = {
-  ...inputStyle,
-  flex: "initial",
-  padding: "0.62rem 0.9rem",
-  minHeight: 42,
-};
