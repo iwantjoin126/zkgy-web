@@ -24,8 +24,16 @@ export default function Contact() {
           </div>
         </div>
         <div className="container">
-          <div style={{ position: "relative", width: "100%", paddingTop: "48%", borderRadius: "var(--radius-card)", overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.3)" }}>
-            <Image src="/assets/contact-hero-sign.avif" alt="每日一签" fill priority sizes="(max-width: 768px) 100vw, 1200px" style={{ objectFit: "cover" }} />
+          <div style={{ borderRadius: "var(--radius-card)", overflow: "hidden", boxShadow: "0 8px 32px rgba(0,0,0,0.3)", background: "#080808" }}>
+            <Image
+              src="/assets/contact-hero-sign.avif"
+              alt="每日一签"
+              width={1200}
+              height={760}
+              priority
+              sizes="(max-width: 768px) 100vw, 1200px"
+              style={{ width: "100%", height: "auto", objectFit: "contain" }}
+            />
           </div>
         </div>
       </header>
