@@ -44,6 +44,32 @@ function getPool() {
   return globalForPg.customerMessagesPool;
 }
 
+function getConnectionDebugInfo() {
+  const connectionString = process.env.POSTGRES_URL || process.env.DATABASE_URL;
+
+  if (!connectionString) {
+    return { hasConnectionString: false };
+  }
+
+  try {
+    const databaseUrl = new URL(connectionString);
+
+    return {
+      hasConnectionString: true,
+      host: databaseUrl.hostname,
+      port: databaseUrl.port || "5432",
+      database: databaseUrl.pathname.replace(/^\//, ""),
+      user: normalizePoolerUser(databaseUrl),
+      hasQuery: Boolean(databaseUrl.search),
+    };
+  } catch {
+    return {
+      hasConnectionString: true,
+      parseable: false,
+    };
+  }
+}
+
 function cleanString(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
@@ -97,7 +123,7 @@ export async function POST(request: Request) {
       ],
     );
   } catch (error) {
-    console.error("Failed to save customer message", error);
+    console.error("Failed to save customer message", getConnectionDebugInfo(), error);
     return NextResponse.json({ error: "提交失败，请稍后再试。" }, { status: 500 });
   }
 
