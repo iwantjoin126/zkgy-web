@@ -39,19 +39,19 @@ export default function Contact() {
             <div className="contact-fields-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-1)" }}>
               <div>
                 <label htmlFor="contact-name" style={labelStyle}>姓名</label>
-                <input id="contact-name" type="text" placeholder="您的大名" style={compactInputStyle} />
+                <input id="contact-name" type="text" placeholder="您的大名" required style={compactInputStyle} />
               </div>
               <div>
                 <label htmlFor="contact-phone" style={labelStyle}>电话</label>
-                <input id="contact-phone" type="tel" placeholder="联系电话" style={compactInputStyle} />
+                <input id="contact-phone" type="tel" placeholder="联系电话" required style={compactInputStyle} />
               </div>
               <div style={{ gridColumn: "1 / -1" }}>
-                <label htmlFor="contact-email" style={labelStyle}>邮箱 / 网站</label>
-                <input id="contact-email" type="email" placeholder="email / website" required style={compactInputStyle} />
+                <label htmlFor="contact-email" style={labelStyle}>邮箱</label>
+                <input id="contact-email" type="email" placeholder="Email" style={compactInputStyle} />
               </div>
               <div style={{ gridColumn: "1 / -1" }}>
                 <label htmlFor="contact-message" style={labelStyle}>留言</label>
-                <textarea id="contact-message" placeholder="有什么能帮到您" rows={4} maxLength={5000} style={{ ...compactInputStyle, minHeight: 128, resize: "vertical" }} />
+                <textarea id="contact-message" placeholder="有什么能帮到您" rows={4} maxLength={5000} required style={{ ...compactInputStyle, minHeight: 128, resize: "vertical" }} />
               </div>
             </div>
             <button type="submit" className="btn btn-primary" style={{ alignSelf: "flex-start", minWidth: 132 }}>现在提交</button>
