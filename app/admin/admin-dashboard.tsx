@@ -8,8 +8,6 @@ type CustomerMessage = {
   phone: string;
   email: string | null;
   message: string;
-  source_path: string | null;
-  user_agent: string | null;
   created_at: string;
 };
 
@@ -34,7 +32,6 @@ const text = {
   email: "\u90ae\u7bb1",
   message: "\u7559\u8a00",
   submittedAt: "\u63d0\u4ea4\u65f6\u95f4",
-  source: "\u6765\u6e90",
 };
 
 export function AdminDashboard() {
@@ -173,7 +170,6 @@ export function AdminDashboard() {
               <div className="admin-message-actions" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "var(--space-1)", alignItems: "end" }}>
                 <div style={{ display: "grid", gap: "0.35rem" }}>
                   <Info label={text.submittedAt} value={formatDate(item.created_at)} />
-                  <Info label={text.source} value={item.source_path || "-"} />
                 </div>
                 <button type="button" className="btn btn-secondary" onClick={() => deleteMessage(item.id)} disabled={deletingId === item.id}>
                   {deletingId === item.id ? text.loading : text.delete}
