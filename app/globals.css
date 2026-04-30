@@ -232,6 +232,11 @@ h2 {
     grid-template-columns: 1fr !important;
   }
 
+  .admin-message-grid,
+  .admin-message-actions {
+    grid-template-columns: 1fr !important;
+  }
+
   .about-hero-images {
     flex-direction: column !important;
   }
