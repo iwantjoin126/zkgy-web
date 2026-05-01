@@ -65,24 +65,56 @@ export function Header({ inverse = false }: { inverse?: boolean }) {
 
 export function Footer() {
   const columns = [
-    ["服务板块", "招商", "运营", "管理", "咨询"],
-    ["解决方案", "定制", "产研", "政策", "资源"],
-    ["关于我们", "团队", "愿景", "使命", "招聘"],
-    ["客户服务", "帮助", "活动", "新闻", "联系"],
-  ];
+    {
+      title: "服务板块",
+      links: [
+        ["招商", "/coming-soon"],
+        ["运营", "/coming-soon"],
+        ["管理", "/coming-soon"],
+        ["咨询", "/coming-soon"],
+      ],
+    },
+    {
+      title: "解决方案",
+      links: [
+        ["定制", "/coming-soon"],
+        ["产研", "/coming-soon"],
+        ["政策", "/coming-soon"],
+        ["资源", "/coming-soon"],
+      ],
+    },
+    {
+      title: "关于我们",
+      links: [
+        ["团队", "/coming-soon"],
+        ["愿景", "/coming-soon"],
+        ["使命", "/coming-soon"],
+        ["招聘", "/coming-soon"],
+      ],
+    },
+    {
+      title: "客户服务",
+      links: [
+        ["帮助", "/coming-soon"],
+        ["活动", "/coming-soon"],
+        ["新闻", "/coming-soon"],
+        ["联系", "/contact"],
+      ],
+    },
+  ] as const;
   return (
     <footer className="section-inverse" style={{ paddingTop: "var(--space-5)", paddingBottom: "var(--space-4)" }}>
       <div className="container">
         <div className="footer-links-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "var(--space-2)", marginBottom: "var(--space-4)", paddingBottom: "var(--space-3)", borderBottom: "1px solid rgba(250,250,250,0.1)" }}>
-          {columns.map(([title, ...links]) => (
-            <ul key={title} style={{ listStyle: "none", margin: 0, padding: 0 }}>
+          {columns.map((column) => (
+            <ul key={column.title} style={{ listStyle: "none", margin: 0, padding: 0 }}>
               <li style={{ marginBottom: "var(--space-1)" }}>
-                <h3 style={{ fontSize: "var(--text-xs)", letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(250,250,250,0.45)", margin: 0 }}>{title}</h3>
+                <h3 style={{ fontSize: "var(--text-xs)", letterSpacing: "0.06em", textTransform: "uppercase", color: "rgba(250,250,250,0.45)", margin: 0 }}>{column.title}</h3>
               </li>
-              {links.map((link) => (
-                <li key={link} style={{ marginBottom: "0.4rem" }}>
-                  <Link style={{ color: "rgba(250,250,250,0.75)", fontSize: "var(--text-base)" }} href="/coming-soon">
-                    {link}
+              {column.links.map(([label, href]) => (
+                <li key={label} style={{ marginBottom: "0.4rem" }}>
+                  <Link style={{ color: "rgba(250,250,250,0.75)", fontSize: "var(--text-base)" }} href={href}>
+                    {label}
                   </Link>
                 </li>
               ))}

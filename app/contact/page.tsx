@@ -50,7 +50,7 @@ export default function Contact() {
         <div className="container" style={{ position: "relative", zIndex: 1, paddingTop: "var(--space-5)", paddingBottom: "var(--space-5)" }}>
           <div style={{ maxWidth: 680 }}>
             <div className="eyebrow" style={{ color: "rgba(250,250,250,0.68)", marginBottom: "var(--space-1)" }}>CONTACT US</div>
-            <h1 className="heading-h1" style={{ color: "var(--color-text-inverse)", marginBottom: "var(--space-2)", maxWidth: 620 }}>高效沟通，合作共赢</h1>
+            <h1 className="heading-h1 contact-hero-title" style={{ color: "var(--color-text-inverse)", marginBottom: "var(--space-2)" }}>高效沟通，合作共赢</h1>
             <p className="subheading" style={{ color: "rgba(250,250,250,0.78)", maxWidth: 610, marginBottom: "var(--space-2)", lineHeight: 1.7 }}>
               欢迎联系我们，获取定制化园区运营与招商服务解决方案。我们专注于高效管理与资源整合，助力企业发展。
             </p>

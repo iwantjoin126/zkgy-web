@@ -196,6 +196,12 @@ h2 {
   display: none;
 }
 
+.contact-hero-title {
+  max-width: 980px;
+  font-size: clamp(3rem, 5.4vw, 5.6rem);
+  white-space: nowrap;
+}
+
 @media (max-width: 991px) {
   .desktop-nav {
     display: none !important;
@@ -203,6 +209,10 @@ h2 {
 
   .mobile-menu-btn {
     display: flex !important;
+  }
+
+  .contact-hero-title {
+    white-space: normal;
   }
 }
 
