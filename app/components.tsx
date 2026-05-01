@@ -97,15 +97,6 @@ export function Footer() {
             </span>
             <span style={{ fontSize: "var(--text-sm)", fontWeight: 700, letterSpacing: "0.06em" }}>中康国悦科技发展</span>
           </Link>
-          <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", alignItems: "center", gap: "var(--space-1)", justifyContent: "flex-end" }}>
-            {["微信", "微博", "抖音", "领英", "视频号"].map((label) => (
-              <li key={label}>
-                <Link aria-label={label} style={{ display: "flex", alignItems: "center", justifyContent: "center", width: 36, height: 36, borderRadius: "50%", color: "rgba(250,250,250,0.55)", border: "1px solid rgba(250,250,250,0.12)" }} href="#">
-                  <span style={{ fontSize: 12 }}>{label.slice(0, 1)}</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
         </div>
       </div>
     </footer>
